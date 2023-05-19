@@ -70,6 +70,7 @@ export const startContainer: any = async (event: APIGatewayProxyEvent): Promise<
         containerOverrides: [
           {
             name: getEnvironmentVariable('CONTAINER_NAME'),
+            // Add ENV vars to be passed to container here
             environment: [
               {
                 name: 'CONFIG_URL',
