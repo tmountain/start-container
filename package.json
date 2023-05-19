@@ -1,0 +1,25 @@
+{
+  "name": "Start Container",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.115",
+    "esbuild": "^0.17.19"
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "postbuild": "cd dist && zip -r index.zip index.js*",
+    "createfn": "aws lambda create-function --function-name startContainer --runtime nodejs14.x --handler index.startContainer --role arn:aws:iam::274478531841:role/MyLambdaExecutionRole --zip-file fileb://dist/index.zip",
+    "updatefn": "aws lambda update-function-code --function-name startContainer --zip-file fileb://dist/index.zip",
+    "statusfn": "aws lambda get-function --function-name startContainer",
+    "runfn": "aws lambda invoke --function-name startContainer --payload 'eyJxdWVyeVN0cmluZ1BhcmFtZXRlcnMiOiB7IkF1dGhvcml6YXRpb24iOiAieW91cl9hdXRoX3Rva2VuIn19' output.txt",
+    "deploy": "npm run build && npm run createfn || npm run updatefn"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1379.0"
+  }
+}

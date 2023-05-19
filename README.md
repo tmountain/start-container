@@ -1,0 +1,3 @@
+# Instructions
+
+$ npm run deploy
